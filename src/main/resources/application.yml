@@ -7,7 +7,7 @@ encode:
 spring:
   profiles:
     active:
-    #    - mysql
+    - mysql
     #    - postgre-sql
-    - spring-data-query
+#    - spring-data-query
 #    - spring-data-projection

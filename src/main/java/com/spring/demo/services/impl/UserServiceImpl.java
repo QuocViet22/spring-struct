@@ -4,15 +4,14 @@ import com.spring.demo.dto.UserCreationDTO;
 import com.spring.demo.dto.UserDTO;
 import com.spring.demo.entity.Role;
 import com.spring.demo.entity.User;
-import com.spring.demo.exeption.ResourceNotFoundException;
 import com.spring.demo.mapper.UserMapper;
 import com.spring.demo.repository.RoleRepository;
 import com.spring.demo.repository.UserRepository;
 import com.spring.demo.services.EncodePasswordService;
 import com.spring.demo.services.UserService;
+import com.spring.demo.struct.UserStructMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +26,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private final RoleRepository roleRepository;
+
+    @Autowired
+    private UserStructMapper userStructMapper;
 
     //    @Autowired
     private final EncodePasswordService encodePasswordService;
@@ -53,10 +55,16 @@ public class UserServiceImpl implements UserService {
         return UserMapper.getInstance().toDTO(user);
     }
 
+    //    @Override
+//    public List<UserDTO> findAll() {
+//        return userRepository.findAll().stream()
+//                .map(user -> UserMapper.getInstance().toDTO(user))
+//                .collect(Collectors.toList());
+//    }
     @Override
     public List<UserDTO> findAll() {
         return userRepository.findAll().stream()
-                .map(user -> UserMapper.getInstance().toDTO(user))
+                .map(userStructMapper::userToUserDto)
                 .collect(Collectors.toList());
     }
 }
